@@ -46,6 +46,7 @@ defmodule DistributedExample.VideoProcessor do
       |> DateTime.to_string()
       |> String.replace(~r/[:\s\-\.]/, "_")
 
-    "output_#{timestamp}.mp4"
+    random_str = for _ <- 1..5, into: "", do: <<Enum.random(?a..?z)>>
+    "output_#{timestamp}_#{random_str}.mp4"
   end
 end
