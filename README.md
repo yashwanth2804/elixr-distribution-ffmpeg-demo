@@ -59,17 +59,27 @@ Once both nodes are running, you can process videos across nodes. From any node:
 # Check connected nodes
 DistributedExample.DistributedProcessor.node_status()
 
-# Process a video (uses auto-generated filenames)
+# Process a single video (uses auto-generated filenames)
 DistributedExample.DistributedProcessor.process_video()
 # Will process /root/elx_img/elx.png and generate:
 # - /root/elx_op/output_2024_03_15_10_30_45_123456.mp4
+
+# Process multiple videos in parallel (default: 100 videos)
+{successes, failures} = DistributedExample.DistributedProcessor.process_videos_parallel()
+
+# Process a specific number of videos in parallel (e.g., 50)
+{successes, failures} = DistributedExample.DistributedProcessor.process_videos_parallel(50)
 ```
 
 The system will:
 1. Automatically connect nodes using the configured cookie
 2. Generate a random number using the distributed RandomServer
-3. Process the video on a randomly selected node
-4. Overlay the random number on the video using FFmpeg
+3. Process the video(s) on randomly selected node(s)
+4. Overlay the random number on each video using FFmpeg
+5. When processing in parallel:
+   - Distributes tasks across all available nodes
+   - Processes up to 100 tasks concurrently
+   - Returns lists of successful and failed operations
 
 ## Directory Structure
 

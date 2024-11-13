@@ -3,6 +3,8 @@ defmodule DistributedExample.VideoProcessor do
   A module for processing videos using FFmpeg.
   """
 
+  require Logger
+
   @doc """
   Overlays the specified text onto the input video and saves the result to the output path.
   Uses auto-generated filenames with timestamps.
@@ -10,6 +12,8 @@ defmodule DistributedExample.VideoProcessor do
   def overlay_text(text) do
     input_path = "/root/elx_img/elx.png"
     output_path = "/root/elx_op/#{generate_output_filename()}"
+
+    Logger.info("Starting video processing on node #{Node.self()}")
 
     ffmpeg_command = "ffmpeg"
 
@@ -25,12 +29,15 @@ defmodule DistributedExample.VideoProcessor do
 
     case System.cmd(ffmpeg_command, ffmpeg_args, stderr_to_stdout: true) do
       {_output, 0} ->
-        IO.puts("Video processing completed successfully. Output saved to: #{output_path}")
-        {:ok, %{input: input_path, output: output_path}}
+        Logger.info(
+          "Video processing completed successfully on node #{Node.self()}. Output: #{output_path}"
+        )
+
+        {:ok, %{input: input_path, output: output_path, node: Node.self()}}
 
       {output, exit_code} ->
-        IO.puts("Error during video processing: #{output}")
-        {:error, exit_code}
+        Logger.error("Error during video processing on node #{Node.self()}: #{output}")
+        {:error, {exit_code, Node.self()}}
     end
   end
 
