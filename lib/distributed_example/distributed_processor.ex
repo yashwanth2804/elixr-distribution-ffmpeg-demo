@@ -52,7 +52,7 @@ defmodule DistributedExample.DistributedProcessor do
     result =
       1..count
       |> Task.async_stream(
-        fn i ->
+        fn _i ->
           target_node = Enum.random(available_nodes)
 
           # Process the video
