@@ -29,10 +29,6 @@ defmodule DistributedExample.VideoProcessor do
 
     case System.cmd(ffmpeg_command, ffmpeg_args, stderr_to_stdout: true) do
       {_output, 0} ->
-        Logger.info(
-          "Video processing completed successfully on node #{Node.self()}. Output: #{output_path}"
-        )
-
         {:ok, %{input: input_path, output: output_path, node: Node.self()}}
 
       {output, exit_code} ->
