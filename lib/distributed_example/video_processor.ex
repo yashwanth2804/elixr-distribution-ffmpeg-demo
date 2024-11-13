@@ -8,11 +8,8 @@ defmodule DistributedExample.VideoProcessor do
   Uses auto-generated filenames with timestamps.
   """
   def overlay_text(text) do
-    input_name = "elx.png"
-    output_name = generate_output_filename()
-
-    input_path = "/root/elx_img/#{input_name}"
-    output_path = "/root/elx_op/#{output_name}"
+    input_path = "/root/elx_img/elx.png"
+    output_path = "/root/elx_op/#{generate_output_filename()}"
 
     ffmpeg_command = "ffmpeg"
 
@@ -38,24 +35,14 @@ defmodule DistributedExample.VideoProcessor do
   end
 
   @doc """
-  Generates an input filename with timestamp
-  """
-  def generate_input_filename do
-    timestamp = generate_timestamp()
-    "input_#{timestamp}.mp4"
-  end
-
-  @doc """
   Generates an output filename with timestamp
   """
   def generate_output_filename do
-    timestamp = generate_timestamp()
-    "output_#{timestamp}.mp4"
-  end
+    timestamp =
+      DateTime.utc_now()
+      |> DateTime.to_string()
+      |> String.replace(~r/[:\s\-\.]/, "_")
 
-  defp generate_timestamp do
-    DateTime.utc_now()
-    |> DateTime.to_string()
-    |> String.replace(~r/[:\s\-\.]/, "_")
+    "output_#{timestamp}.mp4"
   end
 end
