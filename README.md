@@ -2,17 +2,41 @@
 
 A distributed Elixir application that demonstrates node communication and distributed video processing using FFmpeg.
 
-## Installation
+## Prerequisites
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `distributed_example` to your list of dependencies in `mix.exs`:
+- Elixir 1.17 or later
+- FFmpeg installed on all nodes
+- Input directory at `/root/elx_img/` with `elx.png` file
+- Output directory at `/root/elx_op/`
 
-```elixir
-def deps do
-  [
-    {:distributed_example, "~> 0.1.0"}
-  ]
-end
+## Setup and Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd distributed_example
+```
+
+2. Install dependencies:
+```bash
+mix deps.get
+```
+
+3. Compile the project:
+```bash
+mix compile
+```
+
+4. Create required directories:
+```bash
+mkdir -p /root/elx_img
+mkdir -p /root/elx_op
+```
+
+5. Place your input image:
+```bash
+# Place your elx.png in the input directory
+cp path/to/your/image.png /root/elx_img/elx.png
 ```
 
 ## Running the Distributed System
@@ -37,8 +61,7 @@ DistributedExample.DistributedProcessor.node_status()
 
 # Process a video (uses auto-generated filenames)
 DistributedExample.DistributedProcessor.process_video()
-# Will generate names like:
-# - /root/elx_img/input_2024_03_15_10_30_45_123456.mp4
+# Will process /root/elx_img/elx.png and generate:
 # - /root/elx_op/output_2024_03_15_10_30_45_123456.mp4
 ```
 
@@ -50,7 +73,7 @@ The system will:
 
 ## Directory Structure
 
-- Input videos should be placed in: `/root/elx_img/`
+- Input image location: `/root/elx_img/elx.png`
 - Processed videos will be saved to: `/root/elx_op/`
 
 ## Notes
@@ -61,6 +84,14 @@ The system will:
 - Make sure to use the same cookie value (my_secret_cookie) on all nodes
 - The cookie can be set either via command line (as shown above) or in `config/config.exs`
 - Ensure the input and output directories exist and have proper permissions
+
+## Troubleshooting
+
+If you encounter issues:
+1. Ensure all directories exist and have proper permissions
+2. Verify FFmpeg is installed: `ffmpeg -version`
+3. Check node connectivity: `Node.list()` in IEx
+4. Verify the input file exists: `ls /root/elx_img/elx.png`
 
 ## Documentation
 

@@ -1,5 +1,5 @@
 defmodule DistributedExample.DistributedProcessor do
-  def process_video(input_path, output_path) do
+  def process_video() do
     # Get all connected nodes
     nodes = Node.list()
 
@@ -9,7 +9,7 @@ defmodule DistributedExample.DistributedProcessor do
 
     # Start the supervised task on the target node
     Task.Supervisor.async({DistributedExample.FFmpegSupervisor, target_node}, fn ->
-      DistributedExample.VideoOverlayApp.generate_and_overlay(input_path, output_path)
+      DistributedExample.VideoOverlayApp.generate_and_overlay()
     end)
     # 5 minute timeout, adjust as needed
     |> Task.await(300_000)
