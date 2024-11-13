@@ -8,7 +8,7 @@ defmodule DistributedExample.VideoProcessor do
   Uses auto-generated filenames with timestamps.
   """
   def overlay_text(text) do
-    input_name = generate_input_filename()
+    input_name = "elx.png"
     output_name = generate_output_filename()
 
     input_path = "/root/elx_img/#{input_name}"
