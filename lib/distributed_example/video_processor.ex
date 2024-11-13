@@ -13,8 +13,6 @@ defmodule DistributedExample.VideoProcessor do
     input_path = "/root/elx_img/elx.png"
     output_path = "/root/elx_op/#{generate_output_filename()}"
 
-    Logger.info("Starting video processing on node #{Node.self()}")
-
     ffmpeg_command = "ffmpeg"
 
     ffmpeg_args = [

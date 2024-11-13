@@ -31,11 +31,6 @@ defmodule DistributedExample.DistributedProcessor do
     nodes = Node.list()
     available_nodes = if Enum.empty?(nodes), do: [node()], else: [node() | nodes]
 
-    # Print initial status
-    IO.puts(
-      "\n🚀 Starting parallel processing of #{count} videos across #{length(available_nodes)} nodes"
-    )
-
     start_time = System.monotonic_time(:millisecond)
 
     # Create an Agent to track progress
